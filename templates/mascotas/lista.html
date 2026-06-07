@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Mascotas - VetGestión{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Mascotas</h1>
+    {% if user.is_staff or user.role == 'admin' or user.role == 'veterinario' %}
+    <a href="/mascotas/crear/" class="bg-indigo-600 text-white px-4 py-2 rounded-md font-medium hover:bg-indigo-700 transition flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        Nueva Mascota
+    </a>
+    {% endif %}
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for mascota in mascotas %}
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition">
+        <div class="h-48 bg-gray-200 relative">
+            {% if mascota.foto %}
+                <img src="{{ mascota.foto.url }}" alt="{{ mascota.nombre }}" class="w-full h-full object-cover">
+            {% else %}
+                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                    <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                </div>
+            {% endif %}
+            <div class="absolute top-4 right-4 bg-white px-2 py-1 rounded text-xs font-bold shadow-sm">
+                {{ mascota.especie }}
+            </div>
+        </div>
+        <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">{{ mascota.nombre }}</h3>
+            <p class="text-sm text-gray-500 mb-4">{{ mascota.raza }} • {{ mascota.edad }} años</p>
+            
+            <div class="flex items-center text-sm text-gray-600 mb-6">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                Dueño: {{ mascota.dueño.get_full_name }}
+            </div>
+            
+            <div class="flex space-x-2">
+                <a href="/mascotas/{{ mascota.id }}/" class="flex-1 text-center bg-gray-100 text-gray-700 py-2 rounded-md text-sm font-medium hover:bg-gray-200 transition">
+                    Ver Detalles
+                </a>
+                {% if user.role == 'veterinario' or user.is_staff %}
+                <a href="/historial/mascota/{{ mascota.id }}/" class="flex-1 text-center bg-indigo-50 text-indigo-600 py-2 rounded-md text-sm font-medium hover:bg-indigo-100 transition">
+                    Historial
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-full py-12 text-center bg-white rounded-xl border border-dashed border-gray-300">
+        <p class="text-gray-500">No hay mascotas registradas.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
