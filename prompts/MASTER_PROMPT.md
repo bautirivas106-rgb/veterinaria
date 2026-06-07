@@ -8,10 +8,8 @@ Eres un desarrollador Fullstack Senior con experiencia en Python y Django. Tu ta
 ## Stack tecnológico
 - **Backend:** Python 3.x con Django 4.2+
 - **API:** Django Rest Framework (DRF) para el ingreso de datos GPS.
-- **Base de datos:** Configuración dual (SQLite para desarrollo / SQL Server para producción con `mssql-django`).
+- **Base de datos:** Configuración dual (SQLite para desarrollo / PostgreSQL para producción con `mssql-django`).
 - **Frontend:** Django Templates + Tailwind CSS (via CDN para simplicidad).
-- **Mapas:** Leaflet.js utilizando la cartografía de **OpenStreetMap (OSM)**.
-- **Tiempo Real:** Django Channels (WebSockets) para el tracking GPS.
 - **Idioma:** Código, variables, comentarios e interfaz totalmente en **Español**.
 
 ---
@@ -45,19 +43,6 @@ Eres un desarrollador Fullstack Senior con experiencia en Python y Django. Tu ta
 - Campos: Motivo, Diagnóstico, Tratamiento, Observaciones y Fecha.
 - **Regla de integridad:** Las entradas de historial son inmutables después de 24 horas de su creación.
 
-### 4. Tracking GPS con OpenStreetMap
-- **Mapa:** Implementar un visor de OpenStreetMap usando Leaflet.js.
-- **WebSocket:** Actualización en tiempo real de la posición de la mascota sin refrescar la página.
-- **Historial de Ruta:** Capacidad de ver el rastro de las últimas 5 posiciones en el mapa.
-- **Estado de Conexión:** Si no hay datos en más de 10 minutos, marcar el collar como "Desconectado".
-
-### 5. API para Dispositivos GPS
-- Endpoint: `POST /api/tracking/update/`
-- **Seguridad:** El endpoint debe requerir `Token Authentication`.
-- El payload debe incluir: `id_collar`, `latitud`, `longitud`.
-
----
-
 ## Configuración Técnica Obligatoria
 
 ### Estructura de Proyecto
@@ -77,7 +62,7 @@ veterinaria/
 ```
 
 ### Configuración de Base de Datos (en `settings.py`)
-Controlar mediante `MODO_BD` en el `.env`. Usar `mssql-django` para SQL Server con el driver "ODBC Driver 17 for SQL Server".
+Controlar mediante `MODO_BD` en el `.env`. Usar `mssql-django` para SQL Server con el driver "ODBC Driver PostgreSql".
 
 ---
 
