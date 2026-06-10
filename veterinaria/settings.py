@@ -67,6 +67,21 @@ if MODO_BD == 'postgres':
             'PORT': os.getenv('DB_PUERTO', '5432'),
         }
     }
+elif MODO_BD == 'mssql':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'mssql',
+            'NAME': os.getenv('MSSQL_NOMBRE', 'veterinaria'),
+            'USER': os.getenv('MSSQL_USUARIO', 'sa'),
+            'PASSWORD': os.getenv('MSSQL_CONTRASENA'),
+            'HOST': os.getenv('MSSQL_HOST', '127.0.0.1'),
+            'PORT': os.getenv('MSSQL_PUERTO', '1433'),
+            'OPTIONS': {
+                'driver': 'ODBC Driver 17 for SQL Server',
+                'extra_params': 'TrustServerCertificate=yes',
+            },
+        }
+    }
 else:
     DATABASES = {
         'default': {
